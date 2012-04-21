@@ -18,6 +18,7 @@ describe "An EwahBitset" do
     end
     
     positions.should == bPositions
+    @bitset.size_in_bits.should == 101
   end
   
   it "should reset" do
