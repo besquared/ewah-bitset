@@ -158,14 +158,15 @@ extern "C" void Init_ewahbitset() {
   rb_cC = rb_define_class("EwahBitset", rb_cObject);
   rb_define_singleton_method(rb_cC, "new", (ruby_method*) &ewah_new, 0);
   rb_define_method(rb_cC, "initialize", (ruby_method*) &ewah_init, 0);
+  
   rb_define_method(rb_cC, "set", (ruby_method*) &ewah_set, 1);
   rb_define_method(rb_cC, "each", (ruby_method*) &ewah_each, 0);
   rb_define_method(rb_cC, "swap", (ruby_method*) &ewah_swap, 1);
   rb_define_method(rb_cC, "reset", (ruby_method*) &ewah_reset, 0);
   
+  rb_define_method(rb_cC, "==", (ruby_method*) &ewah_equals, 1);
   rb_define_method(rb_cC, "logical_or", (ruby_method*) &ewah_logical_or, 1);
   rb_define_method(rb_cC, "logical_and", (ruby_method*) &ewah_logical_and, 1);
-  rb_define_method(rb_cC, "==", (ruby_method*) &ewah_equals, 1);
   
   rb_define_method(rb_cC, "to_binary_s", (ruby_method*) &ewah_to_binary_s, 0);
   rb_define_method(rb_cC, "serialize", (ruby_method*) &ewah_serialize, 0);
