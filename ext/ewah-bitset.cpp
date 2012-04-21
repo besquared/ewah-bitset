@@ -72,9 +72,8 @@ extern "C" VALUE ewah_logical_or(VALUE self, VALUE other) {
   Data_Get_Struct(self, EWAH, bitset);
   Data_Get_Struct(other, EWAH, obitset);
   
-  VALUE klass = rb_const_get(rb_cObject, rb_intern("EwahBitset"));
-  VALUE newBitset = rb_class_new_instance(0, 0, klass);
-  
+  VALUE newBitset = ewah_new(rb_path2class("EwahBitset"));
+
   EWAH *newBits;
   Data_Get_Struct(newBitset, EWAH, newBits);
   bitset->bits->logicalor(*(obitset->bits), *(newBits->bits));
@@ -88,8 +87,7 @@ extern "C" VALUE ewah_logical_and(VALUE self, VALUE other) {
   Data_Get_Struct(self, EWAH, bitset);
   Data_Get_Struct(other, EWAH, obitset);
   
-  VALUE klass = rb_const_get(rb_cObject, rb_intern("EwahBitset"));
-  VALUE newBitset = rb_class_new_instance(0, 0, klass);
+  VALUE newBitset = ewah_new(rb_path2class("EwahBitset"));
   
   EWAH *newBits;
   Data_Get_Struct(newBitset, EWAH, newBits);
@@ -112,6 +110,12 @@ extern "C" VALUE ewah_equals(VALUE self, VALUE other) {
 }
 
 /* Information & Serialization */
+extern "C" VALUE ewah_size_in_bits(VALUE self) {
+  EWAH *bitset;
+  Data_Get_Struct(self, EWAH, bitset);
+  return INT2FIX(bitset->bits->sizeInBits());
+}
+
 extern "C" VALUE ewah_size_in_bytes(VALUE self) {
   EWAH *bitset;
   Data_Get_Struct(self, EWAH, bitset);
@@ -166,5 +170,6 @@ extern "C" void Init_ewahbitset() {
   rb_define_method(rb_cC, "to_binary_s", (ruby_method*) &ewah_to_binary_s, 0);
   rb_define_method(rb_cC, "serialize", (ruby_method*) &ewah_serialize, 0);
   rb_define_method(rb_cC, "deserialize", (ruby_method*) &ewah_deserialize, 1);
+  rb_define_method(rb_cC, "size_in_bits", (ruby_method*) ewah_size_in_bits, 0);
   rb_define_method(rb_cC, "size_in_bytes", (ruby_method*) ewah_size_in_bytes, 0);
 }
