@@ -94,7 +94,7 @@ describe "An EwahBitset" do
     0.upto(10) do |i|
       @bitset.set(i * 10)
     end
-    
+
     newbits = EwahBitset.new.deserialize(@bitset.serialize)
     
     @bitset.should == newbits
