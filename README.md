@@ -6,6 +6,12 @@ This library wraps the original C++ implementation written by one of the origina
 
 https://github.com/lemire/EWAHBoolArray
 
+The gem is built and tested against ruby 1.8.7. If anyone wants to modify it to also run in ruby 1.9.x I'd gladly accept the pull requests.
+
+To install simply run
+
+    gem install ewah-bitset
+
 Examples are in the spec but the general idea goes something like this:
 
     require 'ewahbitset'
