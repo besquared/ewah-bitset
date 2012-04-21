@@ -102,23 +102,30 @@ extern "C" VALUE ewah_logical_and(VALUE self, VALUE other) {
   return newBitset;
 }
 
-extern "C" VALUE ewah_serialize(VALUE self) {
+extern "C" VALUE ewah_to_bytes(VALUE self) {
   EWAH *bitset;
   Data_Get_Struct(self, EWAH, bitset);
   
   stringstream ss;
-  bitset->bits->write(ss);
+  bitset->bits->write(ss, true);
+  
+  bitset->bits->printout();
   
   return rb_str_new2(ss.str().c_str());
 }
 
-extern "C" VALUE ewah_deserialize(VALUE self, VALUE serialized) {
+extern "C" VALUE ewah_from_bytes(VALUE self, VALUE bytes) {
   EWAH *bitset;
   Data_Get_Struct(self, EWAH, bitset);
+  bitset->bits->printout();
   
   stringstream ss;
-  ss << STR2CSTR(serialized);
-  bitset->bits->read(ss);
+  ss.write(RSTRING_PTR(bytes), RSTRING_LEN(bytes));
+  
+  bitset->bits->read(ss, true);
+  bitset->bits->printout();
+  
+  printf("%s", ss.str().c_str());
   
   return self;
 }
@@ -134,8 +141,7 @@ extern "C" void Init_ewahbitset() {
   rb_define_method(rb_cC, "reset", (ruby_method*) &ewah_reset, 0);
   rb_define_method(rb_cC, "logical_or", (ruby_method*) &ewah_logical_or, 1);
   rb_define_method(rb_cC, "logical_and", (ruby_method*) &ewah_logical_and, 1);
-  rb_define_method(rb_cC, "serialize", (ruby_method*) &ewah_serialize, 0);
-  rb_define_method(rb_cC, "deserialize", (ruby_method*) &ewah_deserialize, 1);
-  
+  rb_define_method(rb_cC, "to_bytes", (ruby_method*) &ewah_to_bytes, 0);
+  rb_define_method(rb_cC, "from_bytes", (ruby_method*) &ewah_from_bytes, 1);
   rb_define_method(rb_cC, "size_in_bytes", (ruby_method*) ewah_size_in_bytes, 0);
 }

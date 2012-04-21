@@ -4,7 +4,7 @@ describe "An EwahBitset" do
   it "should initialize and set bits" do
     bitset = EwahBitset.new
     
-    0.upto(10) do |i|
+    0.upto(100) do |i|
       bitset.set(i * 10)
     end
     
@@ -13,10 +13,14 @@ describe "An EwahBitset" do
     end
     
     puts bitset.size_in_bytes
-    serialized = bitset.serialize
+    bytes = bitset.to_bytes
     
-    newBitset = EwahBitset.new.deserialize(serialized)
+    puts bytes.inspect
     
+    newBitset = EwahBitset.new
+    newBitset.from_bytes(bytes)
+    
+    puts "PUTTING DESERIALIZED"
     newBitset.each do |bit|
       puts bit
     end
