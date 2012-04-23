@@ -122,13 +122,39 @@ extern "C" VALUE ewah_logical_and(VALUE self, VALUE other) {
   return newBitset;
 }
 
-extern "C" VALUE ewah_equals(VALUE self, VALUE other) {
+extern "C" VALUE ewah_logical_not(VALUE self) {
+  EWAH *bitset;
+  Data_Get_Struct(self, EWAH, bitset);
+  
+  VALUE newBitset = ewah_new(rb_path2class("EwahBitset"));
+  
+  EWAH *newBits;
+  Data_Get_Struct(newBitset, EWAH, newBits);
+  bitset->bits->logicalnot(*(newBits->bits));
+  
+  return newBitset;
+}
+
+extern "C" VALUE ewah_eq(VALUE self, VALUE other) {
   EWAH *bitset;
   EWAH *obitset;
   Data_Get_Struct(self, EWAH, bitset);
   Data_Get_Struct(other, EWAH, obitset);
   
   if(*(bitset->bits) == *(obitset->bits)) {
+    return Qtrue;
+  } else {
+    return Qfalse;
+  }
+}
+
+extern "C" VALUE ewah_neq(VALUE self, VALUE other) {
+  EWAH *bitset;
+  EWAH *obitset;
+  Data_Get_Struct(self, EWAH, bitset);
+  Data_Get_Struct(other, EWAH, obitset);
+  
+  if(*(bitset->bits) != *(obitset->bits)) {
     return Qtrue;
   } else {
     return Qfalse;
@@ -193,9 +219,12 @@ extern "C" void Init_ewahbitset() {
   rb_define_method(rb_cC, "each_word64", (ruby_method*) &ewah_each_word, 0);
   rb_define_method(rb_cC, "each_word64_sparse", (ruby_method*) &ewah_each_word_sparse, 0);
   
-  rb_define_method(rb_cC, "==", (ruby_method*) &ewah_equals, 1);
+  rb_define_method(rb_cC, "==", (ruby_method*) &ewah_eq, 1);
+  rb_define_method(rb_cC, "!=", (ruby_method*) &ewah_neq, 1);
+  
   rb_define_method(rb_cC, "logical_or", (ruby_method*) &ewah_logical_or, 1);
   rb_define_method(rb_cC, "logical_and", (ruby_method*) &ewah_logical_and, 1);
+  rb_define_method(rb_cC, "logical_not", (ruby_method*) &ewah_logical_not, 1);
   
   rb_define_method(rb_cC, "to_binary_s", (ruby_method*) &ewah_to_binary_s, 0);
   rb_define_method(rb_cC, "serialize", (ruby_method*) &ewah_serialize, 0);
