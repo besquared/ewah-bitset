@@ -47,6 +47,32 @@ extern "C" VALUE ewah_each(VALUE self) {
   return Qnil;
 }
 
+extern "C" VALUE ewah_each_word(VALUE self) {
+  EWAH *bitset;
+  Data_Get_Struct(self, EWAH, bitset);
+  
+  EWAHBoolArrayIterator<uword64> i = bitset->bits->uncompress();
+  
+  while(i.hasNext()) {
+    rb_yield(INT2FIX(i.next()));
+  }
+  
+  return Qnil;
+}
+
+extern "C" VALUE ewah_each_word_sparse(VALUE self) {
+  EWAH *bitset;
+  Data_Get_Struct(self, EWAH, bitset);
+  
+  EWAHBoolArraySparseIterator<uword64> i = bitset->bits->sparse_uncompress();
+  
+  while(i.hasNext()) {
+    rb_yield(INT2FIX(i.next()));
+  }
+  
+  return Qnil;
+}
+
 extern "C" VALUE ewah_swap(VALUE self, VALUE other) {
   EWAH *bitset;
   EWAH *obitset;
@@ -163,6 +189,9 @@ extern "C" void Init_ewahbitset() {
   rb_define_method(rb_cC, "each", (ruby_method*) &ewah_each, 0);
   rb_define_method(rb_cC, "swap", (ruby_method*) &ewah_swap, 1);
   rb_define_method(rb_cC, "reset", (ruby_method*) &ewah_reset, 0);
+  
+  rb_define_method(rb_cC, "each_word64", (ruby_method*) &ewah_each_word, 0);
+  rb_define_method(rb_cC, "each_word64_sparse", (ruby_method*) &ewah_each_word_sparse, 0);
   
   rb_define_method(rb_cC, "==", (ruby_method*) &ewah_equals, 1);
   rb_define_method(rb_cC, "logical_or", (ruby_method*) &ewah_logical_or, 1);

@@ -99,4 +99,36 @@ describe "An EwahBitset" do
     
     @bitset.should == newbits
   end
+  
+  it "should iterate over each 64 bit word" do
+    0.upto(10) do |i|
+      @bitset.set(i)
+    end
+    
+    output = []
+    @bitset.each_word64 do |word|
+      0.upto(64) do |i|
+        output << ((word >> i) & 0x01)
+      end
+    end
+    
+    output[0,11].uniq.should == [1]
+    output[11,53].uniq.should == [0]
+  end
+  
+  it "should iterate over each 64 bit word sparsely" do
+    0.upto(10) do |i|
+      @bitset.set(i)
+    end
+    
+    output = []
+    @bitset.each_word64_sparse do |word|
+      0.upto(64) do |i|
+        output << ((word >> i) & 0x01)
+      end
+    end
+    
+    output[0,11].uniq.should == [1]
+    output[11,53].uniq.should == [0]
+  end
 end
