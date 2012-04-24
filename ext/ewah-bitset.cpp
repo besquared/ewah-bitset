@@ -12,10 +12,15 @@ typedef struct ewah {
   EWAHBoolArray<uword64> *bits;
 } EWAH;
 
+extern "C" void ewah_free(EWAH *bits) {
+  delete(bits->bits);
+  free(bits);
+}
+
 extern "C" VALUE ewah_new(VALUE klass) {
   EWAH *b = ALLOC(EWAH);
   b->bits = new EWAHBoolArray<uword64>();
-  VALUE bitset = Data_Wrap_Struct(klass, 0, free, b);
+  VALUE bitset = Data_Wrap_Struct(klass, 0, ewah_free, b);
   rb_obj_call_init(bitset, 0, 0);
   return bitset;
 }
