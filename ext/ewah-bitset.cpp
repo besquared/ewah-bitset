@@ -189,6 +189,17 @@ extern "C" VALUE ewah_to_binary_s(VALUE self) {
   return rb_str_new(ss.str().c_str(), ss.str().size());
 }
 
+extern "C" VALUE ewah_to_s(VALUE self) {
+  EWAH *bitset;
+  Data_Get_Struct(self, EWAH, bitset);
+  
+  VALUE ary = rb_ary_new();
+  for(EWAHBoolArray<uword64>::const_iterator i = bitset->bits->begin(); i != bitset->bits->end(); ++i)
+    rb_ary_push(ary, INT2FIX(*i));
+
+  return rb_ary_to_s(ary);
+}
+
 extern "C" VALUE ewah_serialize(VALUE self) {
   EWAH *bitset;
   Data_Get_Struct(self, EWAH, bitset);
@@ -231,8 +242,7 @@ extern "C" void Init_ewahbitset() {
   rb_define_method(rb_cC, "logical_and", (ruby_method*) &ewah_logical_and, 1);
   rb_define_method(rb_cC, "logical_not", (ruby_method*) &ewah_logical_not, 1);
   
-  rb_define_method(rb_cC, "to_s", (ruby_method*) &ewah_to_binary_s, 0);
-  rb_define_method(rb_cC, "inspect", (ruby_method*) &ewah_to_binary_s, 0);
+  rb_define_method(rb_cC, "to_s", (ruby_method*) &ewah_to_s, 0);
   rb_define_method(rb_cC, "to_binary_s", (ruby_method*) &ewah_to_binary_s, 0);
   rb_define_method(rb_cC, "serialize", (ruby_method*) &ewah_serialize, 0);
   rb_define_method(rb_cC, "deserialize", (ruby_method*) &ewah_deserialize, 1);
