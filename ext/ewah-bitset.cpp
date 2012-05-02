@@ -197,7 +197,7 @@ extern "C" VALUE ewah_to_s(VALUE self) {
   for(EWAHBoolArray<uword64>::const_iterator i = bitset->bits->begin(); i != bitset->bits->end(); ++i)
     rb_ary_push(ary, INT2FIX(*i));
 
-  return rb_ary_to_s(ary);
+  return rb_inspect(ary);
 }
 
 extern "C" VALUE ewah_serialize(VALUE self) {
