@@ -3,6 +3,7 @@ LICENSE
 Manifest
 README.md
 Rakefile
+ewah-bitset.gemspec
 ext/boolarray.h
 ext/ewah-bitset.cpp
 ext/ewah.h
