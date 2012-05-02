@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.email = "josh@besquared.net"
   s.extensions = ["ext/extconf.rb"]
   s.extra_rdoc_files = ["CHANGELOG", "LICENSE", "README.md", "ext/boolarray.h", "ext/ewah-bitset.cpp", "ext/ewah.h", "ext/extconf.rb"]
-  s.files = ["CHANGELOG", "LICENSE", "Manifest", "README.md", "Rakefile", "ext/boolarray.h", "ext/ewah-bitset.cpp", "ext/ewah.h", "ext/extconf.rb", "spec/ewah_bitset_spec.rb", "spec/spec.opts", "ewah-bitset.gemspec"]
+  s.files = ["CHANGELOG", "LICENSE", "Manifest", "README.md", "Rakefile", "ewah-bitset.gemspec", "ext/boolarray.h", "ext/ewah-bitset.cpp", "ext/ewah.h", "ext/extconf.rb", "spec/ewah_bitset_spec.rb", "spec/spec.opts"]
   s.homepage = "http://www.github.com/yammer/ewah-bitset/"
   s.rdoc_options = ["--line-numbers", "--inline-source", "--title", "Ewah-bitset", "--main", "README.md"]
   s.require_paths = ["lib", "ext"]

@@ -232,6 +232,7 @@ extern "C" void Init_ewahbitset() {
   rb_define_method(rb_cC, "logical_not", (ruby_method*) &ewah_logical_not, 1);
   
   rb_define_method(rb_cC, "to_s", (ruby_method*) &ewah_to_binary_s, 0);
+  rb_define_method(rb_cC, "inspect", (ruby_method*) &ewah_to_binary_s, 0);
   rb_define_method(rb_cC, "to_binary_s", (ruby_method*) &ewah_to_binary_s, 0);
   rb_define_method(rb_cC, "serialize", (ruby_method*) &ewah_serialize, 0);
   rb_define_method(rb_cC, "deserialize", (ruby_method*) &ewah_deserialize, 1);
