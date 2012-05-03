@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 1.2") if s.respond_to? :required_rubygems_version=
   s.authors = ["Josh Ferguson"]
-  s.date = "2012-05-02"
+  s.date = "2012-05-03"
   s.description = "A wrapper around Lemire's EWAHBoolArray from https://github.com/lemire/EWAHBoolArray"
   s.email = "josh@besquared.net"
   s.extensions = ["ext/extconf.rb"]
